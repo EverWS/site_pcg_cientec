@@ -54,3 +54,7 @@ public/assets/  # Logo e favicon do CIENTEC
 ## Observação
 
 Os formulários são demonstrativos e ainda não estão conectados a um serviço de persistência ou envio de e-mails.
+
+## Implantação
+
+A priori, a página está implantada no ecossistema Cloudflare, utilizando Cloudflare Pages/Workers.
