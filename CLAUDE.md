@@ -17,9 +17,11 @@ React 19 + Vite 8, sem backend. Deploy no Cloudflare Pages a partir de `dist/`.
 
 | Quero mudar… | Arquivo |
 |---|---|
-| Nome do evento, textos, datas, programação, notícias | `src/content.js` |
+| Nome do evento, textos, datas, notícias | `src/content.js` |
+| Programação do dia e links de inscrição (UFSC) | `program` e `REGISTRATION_ALL` em `src/content.js` |
+| Agenda com filtros e "acontecendo agora" | `src/components/ProgramAgenda.jsx` |
 | Layout e seções da página | `src/App.jsx` |
-| Modal de inscrição | `src/components/RegistrationModal.jsx` |
+| Modal de inscrição (todas ou por apresentação) | `src/components/RegistrationModal.jsx` |
 | Partículas do hero (canvas) | `src/components/ParticleField.jsx` |
 | Contador e palavra rotativa | `src/components/Countdown.jsx`, `RotatingWord.jsx` |
 | Efeitos de rolagem/ponteiro (reveal, trajetória, holofote, magnetismo) | `src/hooks/usePageEffects.js` |
@@ -38,7 +40,11 @@ Ignore `dist/` e `node_modules/` em buscas: são gerados.
 3. **CSP sem `unsafe-inline`.** Não use `<script>` inline, `dangerouslySetInnerHTML`
    nem `eval`. Ao adicionar um serviço externo, libere só o domínio necessário
    em `public/_headers` e teste com `npm run preview`.
-4. **Formulários são demonstrativos.** Não enviam nem guardam dados e a
+4. **Inscrições são externas.** Elas acontecem na plataforma da UFSC
+   (`inscricoes.ufsc.br`); o site só mostra os links, com
+   `target="_blank" rel="noopener noreferrer"`. A presença gera certificado de
+   horas para Atividades Complementares. Atividade sem `url` = sem inscrição.
+   O formulário de feedback é demonstrativo: não envia nem guarda dados e a
    interface diz isso (`DEMO_NOTICE`). Ao conectar um backend: remova o aviso,
    publique uma política de privacidade (LGPD), valide no servidor e adicione
    proteção anti-spam (ex.: Cloudflare Turnstile).

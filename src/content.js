@@ -3,7 +3,9 @@
 
 export const EVENT_NAME = '1ª Mostra de Projetos CIENTEC - UFSC';
 export const EVENT_TAGLINE = 'Da teoria ao impacto';
-export const EVENT_DATE = '2026-12-03T09:00:00-03:00';
+// Início do cerimonial de abertura (alvo da contagem regressiva).
+export const EVENT_DATE = '2026-12-03T08:30:00-03:00';
+export const EVENT_DAY = '2026-12-03';
 export const EVENT_DATE_LABEL = '03 dez. 2026';
 export const EVENT_PLACE = 'UFSC Joinville';
 
@@ -78,35 +80,152 @@ export const journey = [
   },
 ];
 
-export const schedule = [
+// Programação preliminar do dia 03/12/2026 (horário de Brasília).
+// Cada atividade termina quando a próxima começa. `url` é o link de
+// inscrição na plataforma da UFSC; a presença registrada gera certificado de
+// horas para Atividades Complementares. Sem `url` = aberta, sem inscrição.
+export const PROGRAM_STATUS = 'Programação preliminar, sujeita a alterações.';
+export const CERTIFICATE_NOTE =
+  'A presença registrada gera certificado de horas para Atividades Complementares.';
+
+export const REGISTRATION_ALL = {
+  title: 'Todas as apresentações',
+  text: 'Uma única inscrição para participar do dia inteiro da mostra.',
+  url: 'https://inscricoes.ufsc.br/mostra-cientec-participacao',
+};
+
+export const programTypes = {
+  org: 'Organização',
+  abertura: 'Abertura',
+  tcc: 'TCC',
+  cultura: 'Cultura',
+  projeto: 'Projeto',
+  extensao: 'Extensão',
+  conversa: 'Conversa',
+  encerramento: 'Encerramento',
+};
+
+export const programFilters = [
+  { id: 'todas', label: 'Tudo' },
+  { id: 'tcc', label: 'TCCs', types: ['tcc'] },
   {
-    number: '01',
-    time: 'Durante todo o evento',
-    title: 'Exposição de projetos',
-    text: 'Protótipos, simulações, pesquisas aplicadas e soluções desenvolvidas pelos acadêmicos.',
-    tone: 'blue',
+    id: 'projetos',
+    label: 'Projetos e extensão',
+    types: ['projeto', 'extensao', 'conversa'],
   },
-  {
-    number: '02',
-    time: 'Atividades práticas',
-    title: 'Workshops e oficinas',
-    text: 'Experiências para visitantes e estudantes do ensino básico e médio das escolas convidadas.',
-    tone: 'gold',
-  },
-  {
-    number: '03',
-    time: 'Programação de palco',
-    title: 'Palestras e apresentações',
-    text: 'Conversas sobre inovação, sustentabilidade, empreendedorismo e impactos sociais da tecnologia.',
-    tone: 'orange',
-  },
+  { id: 'cultura', label: 'Cultura', types: ['cultura'] },
+  { id: 'inscricao', label: 'Com inscrição', withRegistration: true },
 ];
+
+export const program = [
+  { start: '08:00', type: 'org', title: 'Checagem e organização' },
+  {
+    start: '08:30',
+    type: 'abertura',
+    title: 'Cerimonial e abertura',
+    detail:
+      'Coordenação do curso (Romulo e Delatorre), TCC (Cesar), Estágio (Maria Simone) e Extensão (Andréa)',
+  },
+  {
+    start: '09:00',
+    type: 'tcc',
+    title: 'Apresentação de TCC',
+    detail: 'Hideki Nishijima',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-tcc-hideki',
+  },
+  {
+    start: '10:00',
+    type: 'tcc',
+    title: 'Apresentação de TCC',
+    detail: 'Felipe Schneider Herrmann',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-tcc-felipe',
+  },
+  {
+    start: '11:00',
+    type: 'tcc',
+    title: 'Apresentação de TCC',
+    detail: 'Victor Medeiros Bitencourt',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-tcc-victor',
+  },
+  { start: '12:00', type: 'cultura', title: 'Momento cultural' },
+  {
+    start: '12:45',
+    type: 'cultura',
+    title: 'Apresentação da Banda Mordent',
+    detail: 'Antoni Leffeck Schafachek',
+  },
+  { start: '13:10', type: 'org', title: 'Retorno das atividades do evento' },
+  {
+    start: '13:20',
+    type: 'projeto',
+    title: 'Apresentação do GAPE',
+    detail: 'Julia Nascimento dos Santos',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-gape',
+  },
+  {
+    start: '13:30',
+    type: 'projeto',
+    title: 'Apresentação da ETECH',
+    detail: 'Priscila de Matos Barros',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-etech',
+  },
+  {
+    start: '13:40',
+    type: 'projeto',
+    title: 'Apresentação do Projeto SECARTE',
+    detail: 'Bruna Carolyne Manfron Martins',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-secarte',
+  },
+  {
+    start: '13:50',
+    type: 'projeto',
+    title: 'Apresentação do Clube do Livro',
+    detail: 'Professor Emerich',
+  },
+  {
+    start: '14:40',
+    type: 'projeto',
+    title: 'Projeto Conhecer e Integrar',
+    detail: 'Edições 2025/2026',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-cointegrar',
+  },
+  {
+    start: '15:40',
+    type: 'extensao',
+    title: 'Apresentação de Extensão do TCC',
+    detail:
+      'Everton Wesley da Silva, Henrique Gomes Inácio e Maria Clara Seixa Scheffel',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-extensao',
+  },
+  {
+    start: '16:40',
+    type: 'projeto',
+    title: 'Projeto Relacionar e Promover',
+    detail: 'Edições 2025/2026',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-repromove',
+  },
+  {
+    start: '17:40',
+    type: 'conversa',
+    title: 'Roda de conversa com egressos',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-egressos',
+  },
+  {
+    start: '18:40',
+    type: 'encerramento',
+    title: 'Encerramento e coffee break',
+  },
+].map((item, index, list) => ({
+  ...item,
+  id: `${item.start}-${index}`,
+  end: list[index + 1]?.start,
+}));
 
 export const news = [
   {
     date: 'OUT 2026',
-    title: 'Definição de workshops e palestras',
-    text: 'A comissão organizadora está finalizando a grade oficial de atividades práticas e exposições.',
+    title: 'Definição da programação',
+    text: 'A comissão organizadora definiu a programação preliminar: apresentações de TCC, projetos de extensão, momento cultural e roda de conversa com egressos.',
   },
   {
     date: 'NOV 2026',

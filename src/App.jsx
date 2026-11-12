@@ -1,22 +1,26 @@
 import { useCallback, useState } from 'react';
 import Countdown from './components/Countdown.jsx';
 import ParticleField from './components/ParticleField.jsx';
+import ProgramAgenda from './components/ProgramAgenda.jsx';
 import RegistrationModal from './components/RegistrationModal.jsx';
 import RotatingWord from './components/RotatingWord.jsx';
 import usePageEffects from './hooks/usePageEffects.js';
 import {
+  CERTIFICATE_NOTE,
   DEMO_NOTICE,
   EVENT_DATE,
   EVENT_DATE_LABEL,
   EVENT_NAME,
   EVENT_PLACE,
+  PROGRAM_STATUS,
+  REGISTRATION_ALL,
   areas,
   heroWords,
   highlights,
   journey,
   navItems,
   news,
-  schedule,
+  program,
 } from './content.js';
 
 // Atraso escalonado das animações de entrada (variável CSS --delay).
@@ -148,8 +152,8 @@ function App() {
               >
                 Realizar inscrição <span aria-hidden="true">↗</span>
               </button>
-              <a className="button button-ghost" href="#trajetoria">
-                Conhecer a mostra <span aria-hidden="true">↓</span>
+              <a className="button button-ghost" href="#programacao">
+                Ver programação <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
@@ -177,7 +181,7 @@ function App() {
             <dl className="hero-meta">
               <div>
                 <dt>Quando</dt>
-                <dd>{EVENT_DATE_LABEL}</dd>
+                <dd>{EVENT_DATE_LABEL}, 8h às 19h</dd>
               </div>
               <div>
                 <dt>Onde</dt>
@@ -278,34 +282,47 @@ function App() {
         <section id="programacao" className="section section-light">
           <div className="section-heading section-heading-split reveal">
             <div>
-              <span className="eyebrow">Uma programação para experimentar</span>
+              <span className="eyebrow">Programação · {EVENT_DATE_LABEL}</span>
               <h2>
-                Veja, faça, <em>converse.</em>
+                Um dia inteiro de <em>teoria em movimento.</em>
               </h2>
             </div>
             <p>
-              Três caminhos para sair da posição de espectador e entrar na
-              conversa sobre ciência, tecnologia e futuro.
+              Das 8h às 19h: apresentações de TCC, projetos de extensão, momento
+              cultural e roda de conversa com egressos. {PROGRAM_STATUS}
             </p>
           </div>
-          <div className="schedule-list">
-            {schedule.map((item, index) => (
-              <article
-                className={`schedule-item tone-${item.tone} reveal`}
-                style={stagger(index)}
-                key={item.number}
+
+          <aside className="agenda-callout reveal" aria-label="Inscrições">
+            <div>
+              <span className="eyebrow">Certificado de horas</span>
+              <p>
+                {CERTIFICATE_NOTE} Inscreva-se no dia inteiro de uma vez ou
+                escolha apresentações específicas na lista abaixo.
+              </p>
+            </div>
+            <div className="agenda-callout-actions">
+              <a
+                className="button button-primary magnetic"
+                href={REGISTRATION_ALL.url}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <span className="schedule-number">{item.number}</span>
-                <div>
-                  <span className="eyebrow">{item.time}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </div>
-                <span className="arrow-circle" aria-hidden="true">
-                  ↗
-                </span>
-              </article>
-            ))}
+                Inscrever-se em todas <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (abre em nova aba)</span>
+              </a>
+              <button
+                type="button"
+                className="button button-ghost"
+                onClick={openRegistration}
+              >
+                Ver opções de inscrição
+              </button>
+            </div>
+          </aside>
+
+          <div className="agenda-wrap reveal">
+            <ProgramAgenda items={program} />
           </div>
         </section>
 
