@@ -3,16 +3,22 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\" index.html"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.2",
+    "prettier": "3.3.3",
+    "vite": "8.3.4"
+  }
 }
