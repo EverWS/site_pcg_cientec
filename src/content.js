@@ -118,7 +118,6 @@ export const programFilters = [
 ];
 
 export const program = [
-  { start: '08:00', type: 'org', title: 'Checagem e organização' },
   {
     start: '08:30',
     type: 'abertura',
