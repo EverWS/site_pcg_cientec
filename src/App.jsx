@@ -181,7 +181,7 @@ function App() {
             <dl className="hero-meta">
               <div>
                 <dt>Quando</dt>
-                <dd>{EVENT_DATE_LABEL}, 8h às 19h</dd>
+                <dd>{EVENT_DATE_LABEL}, 8:30h às 18:40h</dd>
               </div>
               <div>
                 <dt>Onde</dt>
@@ -288,8 +288,8 @@ function App() {
               </h2>
             </div>
             <p>
-              Das 8h às 19h: apresentações de TCC, projetos de extensão, momento
-              cultural e roda de conversa com egressos. {PROGRAM_STATUS}
+              Das 8:30h às 18:40h: apresentações de TCC, projetos de extensão,
+              momento cultural e roda de conversa com egressos. {PROGRAM_STATUS}
             </p>
           </div>
 
