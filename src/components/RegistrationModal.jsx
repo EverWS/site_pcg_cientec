@@ -1,21 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
-import { DEMO_NOTICE } from '../content.js';
+import {
+  CERTIFICATE_NOTE,
+  PROGRAM_STATUS,
+  REGISTRATION_ALL,
+  program,
+} from '../content.js';
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-// Modal acessível: fecha com Esc ou clique no fundo, mantém o foco dentro
-// do diálogo e devolve o foco ao elemento que o abriu.
+const registrable = program.filter((item) => item.url);
+
+// Modal de inscrição em duas etapas: escolher entre a inscrição completa e as
+// inscrições individuais; na segunda, listar os links por apresentação.
+// Fecha com Esc ou clique no fundo, mantém o foco dentro do diálogo e
+// devolve o foco ao elemento que o abriu.
 export default function RegistrationModal({ onClose }) {
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState('choose');
   const dialogRef = useRef(null);
+  const firstRender = useRef(true);
 
   useEffect(() => {
     const opener = document.activeElement;
     const dialog = dialogRef.current;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    dialog.querySelector('input, button')?.focus();
+    dialog.querySelector('.choice')?.focus();
 
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
@@ -44,14 +54,15 @@ export default function RegistrationModal({ onClose }) {
     };
   }, [onClose]);
 
+  // Ao trocar de etapa, leva o foco ao título e volta a rolagem ao topo.
   useEffect(() => {
-    if (submitted) dialogRef.current?.querySelector('button')?.focus();
-  }, [submitted]);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setSubmitted(true);
-  }
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    dialogRef.current.scrollTop = 0;
+    dialogRef.current.querySelector('#registration-title')?.focus();
+  }, [step]);
 
   return (
     <div
@@ -60,7 +71,7 @@ export default function RegistrationModal({ onClose }) {
       onMouseDown={(event) => event.target === event.currentTarget && onClose()}
     >
       <div
-        className="modal"
+        className="modal modal-registration"
         role="dialog"
         aria-modal="true"
         aria-labelledby="registration-title"
@@ -69,57 +80,102 @@ export default function RegistrationModal({ onClose }) {
         <button className="modal-close" onClick={onClose} aria-label="Fechar">
           ×
         </button>
-        {submitted ? (
-          <div className="success-state" role="status">
-            <span>✓</span>
-            <h3 id="registration-title">Inscrições em breve.</h3>
-            <p>
-              Este formulário ainda é demonstrativo: seus dados não foram
-              enviados nem armazenados. Acompanhe as atualizações desta página
-              para saber quando as inscrições abrirem.
+
+        {step === 'choose' ? (
+          <div className="modal-step" key="choose">
+            <span className="eyebrow">Inscrições</span>
+            <h2 id="registration-title" tabIndex={-1}>
+              Como você quer
+              <br />
+              <em>participar?</em>
+            </h2>
+            <p className="modal-lead">
+              As inscrições são feitas na plataforma da UFSC. {CERTIFICATE_NOTE}
             </p>
-            <button className="text-button" onClick={onClose}>
-              Voltar para a página
-            </button>
+
+            <div className="choice-list">
+              <a
+                className="choice choice-all"
+                href={REGISTRATION_ALL.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="choice-icon" aria-hidden="true">
+                  ◎
+                </span>
+                <span className="choice-copy">
+                  <strong>{REGISTRATION_ALL.title}</strong>
+                  <span>{REGISTRATION_ALL.text}</span>
+                  <small>Abre a inscrição na UFSC em nova aba</small>
+                </span>
+                <span className="choice-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+
+              <button
+                type="button"
+                className="choice"
+                onClick={() => setStep('individual')}
+              >
+                <span className="choice-icon" aria-hidden="true">
+                  ⌗
+                </span>
+                <span className="choice-copy">
+                  <strong>Apresentações específicas</strong>
+                  <span>
+                    Escolha entre {registrable.length} apresentações e faça uma
+                    inscrição para cada uma.
+                  </span>
+                  <small>Ver a lista de apresentações</small>
+                </span>
+                <span className="choice-arrow" aria-hidden="true">
+                  →
+                </span>
+              </button>
+            </div>
+            <p className="form-notice">{PROGRAM_STATUS}</p>
           </div>
         ) : (
-          <>
-            <span className="eyebrow">Quero participar</span>
-            <h2 id="registration-title">
-              Reserve seu lugar
+          <div className="modal-step" key="individual">
+            <button
+              type="button"
+              className="modal-back"
+              onClick={() => setStep('choose')}
+            >
+              <span aria-hidden="true">←</span> Voltar
+            </button>
+            <span className="eyebrow">Inscrição individual</span>
+            <h2 id="registration-title" tabIndex={-1}>
+              Escolha as
               <br />
-              <em>na mostra.</em>
+              <em>apresentações.</em>
             </h2>
-            <p>
-              Deixe seu contato para receber novidades sobre a programação da 1ª
-              Mostra de Projetos CIENTEC - UFSC.
+            <p className="modal-lead">
+              Cada link abre a inscrição daquela apresentação na plataforma da
+              UFSC, em nova aba. Inscreva-se em quantas quiser.
             </p>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="registration-name">Nome</label>
-              <input
-                id="registration-name"
-                name="name"
-                autoComplete="name"
-                maxLength={120}
-                required
-                placeholder="Seu nome completo"
-              />
-              <label htmlFor="registration-email">E-mail</label>
-              <input
-                id="registration-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                maxLength={254}
-                required
-                placeholder="voce@email.com"
-              />
-              <p className="form-notice">{DEMO_NOTICE}</p>
-              <button className="form-submit" type="submit">
-                Confirmar interesse <span>↗</span>
-              </button>
-            </form>
-          </>
+            <ul className="registration-list">
+              {registrable.map((item) => (
+                <li key={item.id}>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    <time>{item.start}</time>
+                    <span className="registration-copy">
+                      <strong>{item.title}</strong>
+                      {item.detail && <span>{item.detail}</span>}
+                    </span>
+                    <span className="registration-cta">
+                      Inscrever-se <span aria-hidden="true">↗</span>
+                    </span>
+                    <span className="sr-only"> (abre em nova aba)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="form-notice">
+              {PROGRAM_STATUS} {CERTIFICATE_NOTE}
+            </p>
+          </div>
         )}
       </div>
     </div>

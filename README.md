@@ -55,7 +55,8 @@ vite.config.js                    # Plugin React e cabeçalhos do preview
 - Navegação responsiva com menu mobile.
 - Contagem regressiva para o evento.
 - Animações de entrada e efeitos de interação.
-- Modal de interesse em participar.
+- Programação do dia com filtros e destaque da atividade em andamento.
+- Inscrição pela plataforma da UFSC: em todas as apresentações ou em cada uma.
 - Formulário de feedback com confirmação visual.
 - Favicon e identidade visual baseados no logotipo fornecido.
 
