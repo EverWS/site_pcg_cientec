@@ -1,78 +1,34 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
+import Countdown from './components/Countdown.jsx';
+import ParticleField from './components/ParticleField.jsx';
 import RegistrationModal from './components/RegistrationModal.jsx';
+import RotatingWord from './components/RotatingWord.jsx';
+import usePageEffects from './hooks/usePageEffects.js';
 import {
   DEMO_NOTICE,
   EVENT_DATE,
+  EVENT_DATE_LABEL,
+  EVENT_NAME,
+  EVENT_PLACE,
+  areas,
+  heroWords,
   highlights,
+  journey,
   navItems,
   news,
   schedule,
 } from './content.js';
 
-function getTimeLeft() {
-  const difference = new Date(EVENT_DATE).getTime() - Date.now();
-  if (difference <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  return {
-    days: Math.floor(difference / 86400000),
-    hours: Math.floor((difference / 3600000) % 24),
-    minutes: Math.floor((difference / 60000) % 60),
-    seconds: Math.floor((difference / 1000) % 60),
-  };
-}
-
-function pad(value) {
-  return String(value).padStart(2, '0');
-}
+// Atraso escalonado das animações de entrada (variável CSS --delay).
+const stagger = (index, step = 90) => ({ '--delay': `${index * step}ms` });
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft);
 
-  useEffect(() => {
-    const timer = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const revealObserver = new IntersectionObserver(
-      (entries) =>
-        entries.forEach(
-          (entry) =>
-            entry.isIntersecting && entry.target.classList.add('is-visible'),
-        ),
-      { threshold: 0.12 },
-    );
-    const sectionObserver = new IntersectionObserver(
-      (entries) =>
-        entries.forEach(
-          (entry) => entry.isIntersecting && setActiveSection(entry.target.id),
-        ),
-      { rootMargin: '-20% 0px -65% 0px', threshold: 0 },
-    );
-    document
-      .querySelectorAll('.reveal')
-      .forEach((element) => revealObserver.observe(element));
-    document
-      .querySelectorAll('main section[id]')
-      .forEach((section) => sectionObserver.observe(section));
-    return () => {
-      revealObserver.disconnect();
-      sectionObserver.disconnect();
-    };
-  }, []);
-
-  const countdown = useMemo(
-    () => [
-      ['dias', timeLeft.days],
-      ['horas', timeLeft.hours],
-      ['min', timeLeft.minutes],
-      ['seg', timeLeft.seconds],
-    ],
-    [timeLeft],
-  );
+  usePageEffects(setActiveSection);
 
   const closeMenu = () => setMenuOpen(false);
   const closeRegistration = useCallback(() => setRegistrationOpen(false), []);
@@ -99,19 +55,23 @@ function App() {
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#sobre">
+        Pular para o conteúdo
+      </a>
+
       <header className="site-header">
         <a
           className="brand"
           href="#inicio"
           onClick={closeMenu}
-          aria-label="CIENTEC, voltar ao início"
+          aria-label={`${EVENT_NAME}, voltar ao início`}
         >
           <span className="brand-mark">
             <img src="/assets/logo-cientec.png" alt="" />
           </span>
           <span className="brand-copy">
             <strong>CIENTEC</strong>
-            <small>Da teoria ao impacto</small>
+            <small>1ª Mostra de Projetos · UFSC</small>
           </span>
         </a>
         <button
@@ -130,13 +90,6 @@ function App() {
           className={menuOpen ? 'is-open' : ''}
           aria-label="Navegação principal"
         >
-          <a
-            className={activeSection === 'inicio' ? 'active' : ''}
-            href="#inicio"
-            onClick={closeMenu}
-          >
-            Início
-          </a>
           {navItems.map(([id, label]) => (
             <a
               className={activeSection === id ? 'active' : ''}
@@ -147,138 +100,187 @@ function App() {
               {label}
             </a>
           ))}
-          <button className="nav-cta" onClick={openRegistration}>
-            Quero participar <span>↗</span>
+          <button className="nav-cta magnetic" onClick={openRegistration}>
+            Quero participar <span aria-hidden="true">↗</span>
           </button>
         </nav>
+        <span className="scroll-progress" aria-hidden="true" />
       </header>
 
       <main>
         <section id="inicio" className="hero">
-          <div className="hero-grid" />
-          <div className="hero-content reveal is-visible">
-            <div className="hero-kicker">
-              <span className="pulse-dot" /> UFSC Joinville · ciência em
-              movimento
-            </div>
-            <h1>
-              Da teoria <em>ao impacto.</em>
+          <ParticleField />
+          <div className="hero-glow" aria-hidden="true" />
+
+          <div className="hero-content">
+            <p className="hero-kicker">
+              <span className="pulse-dot" aria-hidden="true" />
+              1ª edição · {EVENT_DATE_LABEL} · {EVENT_PLACE}
+            </p>
+            <h1 className="hero-title">
+              <span className="line">
+                <span>1ª Mostra</span>
+              </span>{' '}
+              <span className="line">
+                <span>de Projetos</span>
+              </span>{' '}
+              <span className="line line-brand">
+                <span>
+                  CIENTEC<span className="sr-only"> -</span> <small>UFSC</small>
+                </span>
+              </span>
             </h1>
+            <p className="hero-tagline">
+              <span className="sr-only">Da teoria ao impacto.</span>
+              <span aria-hidden="true">
+                Da teoria ao <RotatingWord words={heroWords} />
+              </span>
+            </p>
             <p className="hero-lead">
-              Uma experiência para descobrir como o conhecimento acadêmico pode
-              ganhar forma, circular pela comunidade e transformar perguntas em
-              possibilidades.
+              Projetos de estudantes do Campus de Joinville saem do papel e
+              encontram a comunidade: protótipos, experimentos e soluções para
+              ver de perto, perguntar e experimentar.
             </p>
             <div className="hero-actions">
               <button
-                className="button button-primary"
+                className="button button-primary magnetic"
                 onClick={openRegistration}
               >
-                Realizar inscrição <span>↗</span>
+                Realizar inscrição <span aria-hidden="true">↗</span>
               </button>
-              <a className="button button-ghost" href="#sobre">
-                Explorar o evento <span>↓</span>
+              <a className="button button-ghost" href="#trajetoria">
+                Conhecer a mostra <span aria-hidden="true">↓</span>
               </a>
             </div>
-            <div className="hero-meta">
-              <div>
-                <span>Quando</span>
-                <strong>03 dez. 2026</strong>
-              </div>
-              <div>
-                <span>Onde</span>
-                <strong>Joinville / SC</strong>
-              </div>
-              <div>
-                <span>Para quem</span>
-                <strong>Comunidade e escolas</strong>
-              </div>
-            </div>
           </div>
-          <div
-            className="hero-visual reveal is-visible"
-            aria-label="Identidade visual do CIENTEC"
-          >
-            <div className="orbit orbit-one" />
-            <div className="orbit orbit-two" />
-            <div className="logo-card">
-              <img src="/assets/logo-cientec.png" alt="Logotipo CIENTEC" />
+
+          <div className="hero-visual" aria-hidden="true">
+            <div className="hero-axis" />
+            <div className="orbit orbit-theory" />
+            <div className="orbit orbit-impact" />
+            <div className="logo-disc">
+              <img src="/assets/logo-cientec.png" alt="" />
             </div>
-            <div className="floating-note note-top">
-              <span>01</span>
+            <div className="floating-note note-theory">
+              <span>01 · teoria</span>
               <strong>Ciência</strong>
-              <small>que se compartilha</small>
+              <small>que se pergunta</small>
             </div>
-            <div className="floating-note note-bottom">
-              <span>+</span>
-              <strong>Impacto</strong>
-              <small>que se multiplica</small>
+            <div className="floating-note note-impact">
+              <span>02 · impacto</span>
+              <strong>Comunidade</strong>
+              <small>que se transforma</small>
             </div>
           </div>
-          <a className="scroll-cue" href="#sobre">
-            <span>Scroll para explorar</span>
-            <i>↓</i>
-          </a>
+
+          <div className="hero-footer">
+            <dl className="hero-meta">
+              <div>
+                <dt>Quando</dt>
+                <dd>{EVENT_DATE_LABEL}</dd>
+              </div>
+              <div>
+                <dt>Onde</dt>
+                <dd>Joinville / SC</dd>
+              </div>
+              <div>
+                <dt>Para quem</dt>
+                <dd>Comunidade e escolas</dd>
+              </div>
+            </dl>
+            <Countdown target={EVENT_DATE} label="Contagem regressiva" />
+          </div>
         </section>
 
-        <section
-          className="countdown-strip"
-          aria-label="Contagem regressiva para o evento"
-        >
-          <div className="countdown-intro">
-            <span className="eyebrow">A próxima descoberta começa em</span>
-            <strong>03.12.2026</strong>
-          </div>
-          <div className="countdown-values">
-            {countdown.map(([label, value]) => (
-              <div className="countdown-item" key={label}>
-                <strong>{pad(value)}</strong>
-                <span>{label}</span>
-              </div>
+        <section className="marquee" aria-label="Áreas presentes na mostra">
+          <ul className="marquee-track">
+            {[...areas, ...areas].map((area, index) => (
+              <li key={`${area}-${index}`} aria-hidden={index >= areas.length}>
+                {area}
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
         <section id="sobre" className="section section-light">
-          <div className="section-heading reveal">
-            <span className="eyebrow">O evento</span>
-            <h2>
-              Conhecimento ganha sentido <em>quando circula.</em>
-            </h2>
+          <div className="section-heading section-heading-split reveal">
+            <div>
+              <span className="eyebrow">A mostra</span>
+              <h2>
+                Conhecimento ganha sentido <em>quando circula.</em>
+              </h2>
+            </div>
             <p>
-              O CIENTEC é uma iniciativa de integração do Campus de Joinville da
-              UFSC. Em diálogo com o Bacharelado em Ciência e Tecnologia — uma
-              formação multidisciplinar que combina engenharias, computação,
-              empreendedorismo e inovação — o evento aproxima universidade,
-              escolas, indústria e sociedade para transformar conhecimento em
-              experiências e soluções possíveis.
+              A {EVENT_NAME} é uma iniciativa de integração do Campus de
+              Joinville. Em diálogo com o Bacharelado em Ciência e Tecnologia,
+              ela aproxima universidade, escolas, indústria e sociedade para
+              transformar conhecimento em experiências e soluções possíveis.
             </p>
           </div>
           <div className="highlight-grid">
             {highlights.map((item, index) => (
               <article
-                className="highlight-card reveal"
-                style={{ '--delay': `${index * 100}ms` }}
+                className={`highlight-card spotlight tilt reveal tone-${item.tone}`}
+                style={stagger(index)}
                 key={item.eyebrow}
               >
-                <div className="card-icon">{item.icon}</div>
+                <div className="card-icon" aria-hidden="true">
+                  {item.icon}
+                </div>
                 <span className="eyebrow">{item.eyebrow}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <span className="card-line" />
+                <span className="card-line" aria-hidden="true" />
               </article>
             ))}
           </div>
         </section>
 
-        <section id="programacao" className="section section-dark">
+        <section id="trajetoria" className="section section-dark journey">
+          <div className="blueprint" aria-hidden="true" />
+          <div className="section-heading section-heading-split reveal">
+            <div>
+              <span className="eyebrow">Trajetória de um projeto</span>
+              <h2>
+                Do traço tracejado
+                <br />
+                <em>ao mundo real.</em>
+              </h2>
+            </div>
+            <p>
+              Cada projeto exposto percorreu um caminho. Role a página e
+              acompanhe a ideia deixando de ser rascunho para virar impacto.
+            </p>
+          </div>
+          <div className="journey-track">
+            <span className="journey-line" aria-hidden="true">
+              <span className="journey-line-fill" />
+            </span>
+            <ol className="journey-steps">
+              {journey.map((item, index) => (
+                <li
+                  className="journey-step reveal"
+                  style={stagger(index, 120)}
+                  key={item.step}
+                >
+                  <span className="journey-node" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="eyebrow">{item.step}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section id="programacao" className="section section-light">
           <div className="section-heading section-heading-split reveal">
             <div>
               <span className="eyebrow">Uma programação para experimentar</span>
               <h2>
-                Veja, faça,
-                <br />
-                <em>converse.</em>
+                Veja, faça, <em>converse.</em>
               </h2>
             </div>
             <p>
@@ -289,8 +291,8 @@ function App() {
           <div className="schedule-list">
             {schedule.map((item, index) => (
               <article
-                className={`schedule-item ${item.tone} reveal`}
-                style={{ '--delay': `${index * 100}ms` }}
+                className={`schedule-item tone-${item.tone} reveal`}
+                style={stagger(index)}
                 key={item.number}
               >
                 <span className="schedule-number">{item.number}</span>
@@ -299,13 +301,15 @@ function App() {
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
                 </div>
-                <span className="arrow-circle">↗</span>
+                <span className="arrow-circle" aria-hidden="true">
+                  ↗
+                </span>
               </article>
             ))}
           </div>
         </section>
 
-        <section id="noticias" className="section section-light news-section">
+        <section id="noticias" className="section section-paper">
           <div className="section-heading section-heading-split reveal">
             <div>
               <span className="eyebrow">Diário de bordo</span>
@@ -314,27 +318,27 @@ function App() {
               </h2>
             </div>
             <span className="live-label">
-              <i /> Atualizações do projeto
+              <i aria-hidden="true" /> Atualizações do projeto
             </span>
           </div>
-          <div className="news-grid">
+          <ol className="news-timeline">
             {news.map((item, index) => (
-              <article
-                className={`news-card reveal ${item.featured ? 'featured' : ''}`}
-                style={{ '--delay': `${index * 100}ms` }}
+              <li
+                className={`news-card spotlight reveal ${item.featured ? 'featured' : ''}`}
+                style={stagger(index, 110)}
                 key={item.title}
               >
+                <span className="news-dot" aria-hidden="true" />
                 <span className="news-date">{item.date}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <span className="news-arrow">↗</span>
-              </article>
+              </li>
             ))}
-          </div>
+          </ol>
         </section>
 
         <section id="feedback" className="feedback-section">
-          <div className="feedback-orb" />
+          <div className="feedback-orb" aria-hidden="true" />
           <div className="feedback-content reveal">
             <span className="eyebrow">Sua voz faz parte</span>
             <h2>
@@ -347,13 +351,13 @@ function App() {
               Compartilhe sua impressão e ajude a orientar as próximas edições.
             </p>
             <button
-              className="button button-primary"
+              className="button button-dark magnetic"
               onClick={goToFeedbackForm}
             >
-              Deixar feedback <span>↗</span>
+              Deixar feedback <span aria-hidden="true">↗</span>
             </button>
           </div>
-          <div className="feedback-form-card reveal">
+          <div className="feedback-form-card reveal" style={stagger(1, 120)}>
             {feedbackSent ? (
               <div className="success-state" role="status">
                 <span>✓</span>
@@ -384,12 +388,12 @@ function App() {
                   name="message"
                   required
                   maxLength={2000}
-                  placeholder="O que você gostaria de encontrar no CIENTEC?"
+                  placeholder="O que você gostaria de encontrar na mostra?"
                   rows="3"
                 />
                 <p className="form-notice">{DEMO_NOTICE}</p>
                 <button className="form-submit" type="submit">
-                  Enviar mensagem <span>↗</span>
+                  Enviar mensagem <span aria-hidden="true">↗</span>
                 </button>
               </form>
             )}
@@ -398,22 +402,29 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <div className="footer-brand">
-          <span className="brand-mark small">
-            <img src="/assets/logo-cientec.png" alt="" />
-          </span>
-          <div>
-            <strong>CIENTEC</strong>
-            <span>Da teoria ao impacto</span>
-          </div>
-        </div>
-        <p>
-          Curso de Bacharelado em Ciência e Tecnologia
-          <br />
-          Universidade Federal de Santa Catarina · Centro Tecnológico de
-          Joinville
+        <p className="footer-wordmark" aria-hidden="true">
+          CIENTEC
         </p>
-        <span className="footer-year">UFSC · 2026</span>
+        <div className="footer-row">
+          <div className="footer-brand">
+            <span className="brand-mark small">
+              <img src="/assets/logo-cientec.png" alt="" />
+            </span>
+            <div>
+              <strong>{EVENT_NAME}</strong>
+              <span>Da teoria ao impacto</span>
+            </div>
+          </div>
+          <p>
+            Curso de Bacharelado em Ciência e Tecnologia
+            <br />
+            Universidade Federal de Santa Catarina · Centro Tecnológico de
+            Joinville
+          </p>
+          <a className="footer-top" href="#inicio">
+            Voltar ao topo <span aria-hidden="true">↑</span>
+          </a>
+        </div>
       </footer>
 
       {registrationOpen && <RegistrationModal onClose={closeRegistration} />}
