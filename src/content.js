@@ -1,13 +1,33 @@
 // Conteúdo editorial da página. Atualize textos, datas e notícias aqui,
 // sem precisar mexer nos componentes.
 
+export const EVENT_NAME = '1ª Mostra de Projetos CIENTEC - UFSC';
+export const EVENT_TAGLINE = 'Da teoria ao impacto';
 export const EVENT_DATE = '2026-12-03T09:00:00-03:00';
+export const EVENT_DATE_LABEL = '03 dez. 2026';
+export const EVENT_PLACE = 'UFSC Joinville';
 
 export const navItems = [
-  ['sobre', 'O evento'],
+  ['sobre', 'A mostra'],
+  ['trajetoria', 'Trajetória'],
   ['programacao', 'Programação'],
   ['noticias', 'Atualizações'],
   ['feedback', 'Feedback'],
+];
+
+// Palavras que alternam no título do hero: "Da teoria ao …".
+export const heroWords = ['protótipo', 'experimento', 'impacto'];
+
+// Faixa em movimento abaixo do hero.
+export const areas = [
+  'Engenharias',
+  'Computação',
+  'Sustentabilidade',
+  'Empreendedorismo',
+  'Inovação',
+  'Ciência aplicada',
+  'Extensão universitária',
+  'Tecnologia social',
 ];
 
 export const highlights = [
@@ -16,18 +36,45 @@ export const highlights = [
     eyebrow: 'Propósito',
     title: 'Conhecimento que encontra contexto',
     text: 'Uma ponte entre a formação universitária e os desafios reais da sociedade, com espaço para testar ideias e compartilhar descobertas.',
+    tone: 'blue',
   },
   {
     icon: '⌘',
     eyebrow: 'Interdisciplinaridade',
     title: 'Diferentes saberes, um mesmo movimento',
     text: 'Resultados dos projetos extensionistas se conectam em uma experiência que reúne ciência, criatividade, tecnologia e impacto social.',
+    tone: 'gold',
   },
   {
     icon: '↗',
     eyebrow: 'Comunidade',
     title: 'Portas abertas para Joinville',
     text: 'Escolas e comunidade externa são convidadas a explorar, perguntar, experimentar e participar da construção do futuro.',
+    tone: 'orange',
+  },
+];
+
+// Etapas da seção "Trajetória": o caminho de um projeto até a mostra.
+export const journey = [
+  {
+    step: 'Teoria',
+    title: 'Uma pergunta',
+    text: 'Todo projeto começa em sala de aula, num conceito que pede para ser testado fora do papel.',
+  },
+  {
+    step: 'Método',
+    title: 'Um experimento',
+    text: 'Modelos, simulações e medições transformam a hipótese em algo que pode ser verificado.',
+  },
+  {
+    step: 'Protótipo',
+    title: 'Uma solução',
+    text: 'A ideia ganha forma: circuitos, códigos, maquetes e processos que funcionam de verdade.',
+  },
+  {
+    step: 'Impacto',
+    title: 'Uma conversa',
+    text: 'Na mostra, o projeto encontra o público, recebe perguntas e passa a fazer parte da comunidade.',
   },
 ];
 
@@ -68,8 +115,8 @@ export const news = [
   },
   {
     date: '03 DEZ 2026',
-    title: 'Grande dia do evento',
-    text: 'O CIENTEC abre suas portas para a comunidade e transforma teoria em experiências compartilhadas.',
+    title: 'Grande dia da mostra',
+    text: 'A 1ª Mostra de Projetos CIENTEC abre suas portas para a comunidade e transforma teoria em experiências compartilhadas.',
     featured: true,
   },
 ];

@@ -88,11 +88,11 @@ export default function RegistrationModal({ onClose }) {
             <h2 id="registration-title">
               Reserve seu lugar
               <br />
-              <em>na experiência.</em>
+              <em>na mostra.</em>
             </h2>
             <p>
-              Deixe seu contato para receber novidades sobre a programação do
-              evento.
+              Deixe seu contato para receber novidades sobre a programação da 1ª
+              Mostra de Projetos CIENTEC - UFSC.
             </p>
             <form onSubmit={handleSubmit}>
               <label htmlFor="registration-name">Nome</label>

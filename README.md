@@ -1,6 +1,6 @@
-# CIENTEC — Da Teoria ao Impacto
+# 1ª Mostra de Projetos CIENTEC - UFSC
 
-Landing page do CIENTEC, evento do Campus de Joinville da UFSC que aproxima universidade, escolas, indústria e sociedade por meio de ciência, tecnologia e inovação.
+Landing page da 1ª Mostra de Projetos CIENTEC - UFSC, evento do Campus de Joinville da UFSC que aproxima universidade, escolas, indústria e sociedade por meio de ciência, tecnologia e inovação.
 
 ## Stack
 
