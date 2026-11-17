@@ -245,7 +245,10 @@ export const news = [
   },
 ];
 
-// Aviso exibido enquanto os formulários não têm backend. Ao conectar um
-// serviço de envio, remova o aviso e publique a política de privacidade (LGPD).
-export const DEMO_NOTICE =
-  'Formulário demonstrativo: nenhum dado é enviado ou armazenado.';
+// Questionário de avaliação da mostra (Google Forms, abre em nova aba).
+export const FEEDBACK_FORM_URL = 'https://forms.gle/dP8tbqLoJHJaVHGu5';
+
+// Destino das mensagens da caixa de contato. O site é estático: o envio abre
+// o aplicativo de e-mail do visitante com a mensagem já preenchida.
+export const CONTACT_EMAIL = 'ufsc.cientec@gmail.com';
+export const CONTACT_NOTICE = `Ao enviar, seu aplicativo de e-mail abre com a mensagem pronta para ${CONTACT_EMAIL}.`;

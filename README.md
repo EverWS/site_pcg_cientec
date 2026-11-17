@@ -57,15 +57,17 @@ vite.config.js                    # Plugin React e cabeçalhos do preview
 - Animações de entrada e efeitos de interação.
 - Programação do dia com filtros e destaque da atividade em andamento.
 - Inscrição pela plataforma da UFSC: em todas as apresentações ou em cada uma.
-- Formulário de feedback com confirmação visual.
+- Botão "Deixar feedback" que abre o questionário no Google Forms.
+- Caixa de mensagem que abre o e-mail do visitante endereçado a
+  `ufsc.cientec@gmail.com`.
 - Favicon e identidade visual baseados no logotipo fornecido.
 
 ## Observação
 
-Os formulários são demonstrativos: não enviam nem armazenam dados, e a página
-informa isso ao visitante. Antes de conectá-los a um serviço, publique uma
-política de privacidade (LGPD), valide os dados no servidor e adicione proteção
-anti-spam.
+O site não tem backend: a caixa de mensagem monta um link `mailto:` e o envio
+é feito pelo aplicativo de e-mail do visitante. Nenhum dado é armazenado pelo
+site. Para enviar direto do navegador, seria preciso um serviço externo (com
+política de privacidade/LGPD, validação e proteção anti-spam).
 
 ## Implantação
 

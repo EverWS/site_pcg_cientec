@@ -7,7 +7,9 @@ import RotatingWord from './components/RotatingWord.jsx';
 import usePageEffects from './hooks/usePageEffects.js';
 import {
   CERTIFICATE_NOTE,
-  DEMO_NOTICE,
+  CONTACT_EMAIL,
+  CONTACT_NOTICE,
+  FEEDBACK_FORM_URL,
   EVENT_DATE,
   EVENT_DATE_LABEL,
   EVENT_NAME,
@@ -51,8 +53,20 @@ function App() {
     });
   }
 
+  // Monta um link mailto com nome e mensagem e abre o cliente de e-mail.
   function handleFeedback(event) {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const name = String(data.get('name') || '').trim();
+    const message = String(data.get('message') || '').trim();
+    const subject = name
+      ? `Mensagem da 1ª Mostra CIENTEC - ${name}`
+      : 'Mensagem da 1ª Mostra CIENTEC';
+    const body = name ? `Nome: ${name}\n\n${message}` : message;
+    const params = new URLSearchParams({ subject, body })
+      .toString()
+      .replace(/\+/g, '%20');
+    window.location.href = `mailto:${CONTACT_EMAIL}?${params}`;
     setFeedbackSent(true);
   }
 
@@ -366,24 +380,28 @@ function App() {
               Uma boa experiência também se constrói ouvindo quem participa.
               Compartilhe sua impressão e ajude a orientar as próximas edições.
             </p>
-            <button
+            <a
               className="button button-dark magnetic"
-              onClick={goToFeedbackForm}
+              href={FEEDBACK_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Deixar feedback <span aria-hidden="true">↗</span>
-            </button>
+              <span className="sr-only"> (abre o formulário em nova aba)</span>
+            </a>
           </div>
           <div className="feedback-form-card reveal" style={stagger(1, 120)}>
             {feedbackSent ? (
               <div className="success-state" role="status">
                 <span>✓</span>
-                <h3>Obrigado pelo interesse.</h3>
+                <h3>Quase lá!</h3>
                 <p>
-                  Este formulário ainda é demonstrativo: sua mensagem não foi
-                  enviada nem armazenada.
+                  Confira a mensagem no seu aplicativo de e-mail e clique em
+                  enviar. Se ele não abrir, escreva para{' '}
+                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
                 </p>
                 <button className="text-button" onClick={goToFeedbackForm}>
-                  Enviar outro feedback
+                  Escrever outra mensagem
                 </button>
               </div>
             ) : (
@@ -407,7 +425,7 @@ function App() {
                   placeholder="O que você gostaria de encontrar na mostra?"
                   rows="3"
                 />
-                <p className="form-notice">{DEMO_NOTICE}</p>
+                <p className="form-notice">{CONTACT_NOTICE}</p>
                 <button className="form-submit" type="submit">
                   Enviar mensagem <span aria-hidden="true">↗</span>
                 </button>
