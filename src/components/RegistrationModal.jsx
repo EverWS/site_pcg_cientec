@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  CERTIFICATE_NOTE,
-  PROGRAM_STATUS,
-  REGISTRATION_ALL,
-  program,
-} from '../content.js';
+import { CERTIFICATE_NOTE, REGISTRATION_ALL, program } from '../content.js';
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -134,7 +129,6 @@ export default function RegistrationModal({ onClose }) {
                 </span>
               </button>
             </div>
-            <p className="form-notice">{PROGRAM_STATUS}</p>
           </div>
         ) : (
           <div className="modal-step" key="individual">
@@ -172,9 +166,7 @@ export default function RegistrationModal({ onClose }) {
                 </li>
               ))}
             </ul>
-            <p className="form-notice">
-              {PROGRAM_STATUS} {CERTIFICATE_NOTE}
-            </p>
+            <p className="form-notice">{CERTIFICATE_NOTE}</p>
           </div>
         )}
       </div>

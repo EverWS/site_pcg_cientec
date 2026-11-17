@@ -80,11 +80,10 @@ export const journey = [
   },
 ];
 
-// Programação preliminar do dia 03/12/2026 (horário de Brasília).
+// Programação do dia 03/12/2026 (horário de Brasília).
 // Cada atividade termina quando a próxima começa. `url` é o link de
 // inscrição na plataforma da UFSC; a presença registrada gera certificado de
 // horas para Atividades Complementares. Sem `url` = aberta, sem inscrição.
-export const PROGRAM_STATUS = 'Programação preliminar, sujeita a alterações.';
 export const CERTIFICATE_NOTE =
   'A presença registrada gera certificado de horas para Atividades Complementares.';
 
@@ -118,13 +117,7 @@ export const programFilters = [
 ];
 
 export const program = [
-  {
-    start: '08:30',
-    type: 'abertura',
-    title: 'Cerimonial e abertura',
-    detail:
-      'Coordenação do curso (Romulo e Delatorre), TCC (Cesar), Estágio (Maria Simone) e Extensão (Andréa)',
-  },
+  { start: '08:30', type: 'abertura', title: 'Cerimonial e abertura' },
   {
     start: '09:00',
     type: 'tcc',
@@ -146,71 +139,84 @@ export const program = [
     detail: 'Victor Medeiros Bitencourt',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-tcc-victor',
   },
-  { start: '12:00', type: 'cultura', title: 'Momento cultural' },
+  {
+    start: '12:00',
+    type: 'cultura',
+    title: 'Momento das Poesias',
+    detail: 'Clube do Livro Viajantes Estáticos',
+  },
   {
     start: '12:45',
     type: 'cultura',
     title: 'Apresentação da Banda Mordent',
     detail: 'Antoni Leffeck Schafachek',
   },
-  { start: '13:10', type: 'org', title: 'Retorno das atividades do evento' },
+  { start: '13:20', type: 'org', title: 'Retorno das atividades do evento' },
   {
-    start: '13:20',
+    start: '13:30',
     type: 'projeto',
     title: 'Apresentação do GAPE',
     detail: 'Julia Nascimento dos Santos',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-gape',
   },
   {
-    start: '13:30',
+    start: '13:45',
     type: 'projeto',
     title: 'Apresentação da ETECH',
     detail: 'Priscila de Matos Barros',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-etech',
   },
   {
-    start: '13:40',
+    start: '14:00',
     type: 'projeto',
     title: 'Apresentação do Projeto SECARTE',
     detail: 'Bruna Carolyne Manfron Martins',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-secarte',
   },
   {
-    start: '13:50',
-    type: 'projeto',
-    title: 'Apresentação do Clube do Livro',
-    detail: 'Professor Emerich',
-  },
-  {
-    start: '14:40',
+    start: '14:15',
     type: 'projeto',
     title: 'Projeto Conhecer e Integrar',
     detail: 'Edições 2025/2026',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-cointegrar',
   },
+  // As três apresentações das 15h compartilham o mesmo link de inscrição.
   {
-    start: '15:40',
+    start: '15:15',
     type: 'extensao',
     title: 'Apresentação de Extensão do TCC',
-    detail:
-      'Everton Wesley da Silva, Henrique Gomes Inácio e Maria Clara Seixa Scheffel',
+    detail: 'Everton Wesley da Silva',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-extensao',
   },
   {
-    start: '16:40',
+    start: '15:35',
+    type: 'projeto',
+    title: 'Projeto Agentes para Escrita de Artigos',
+    detail: 'Maria Clara Seixa Scheffel',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-extensao',
+  },
+  {
+    start: '15:55',
+    type: 'extensao',
+    title: 'Apresentação de Extensão do TCC',
+    detail: 'Henrique Gomes Inácio',
+    url: 'https://inscricoes.ufsc.br/mostra-cientec-extensao',
+  },
+  {
+    start: '16:15',
     type: 'projeto',
     title: 'Projeto Relacionar e Promover',
     detail: 'Edições 2025/2026',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-repromove',
   },
   {
-    start: '17:40',
+    start: '17:30',
     type: 'conversa',
     title: 'Roda de conversa com egressos',
     url: 'https://inscricoes.ufsc.br/mostra-cientec-egressos',
   },
   {
-    start: '18:40',
+    start: '18:30',
     type: 'encerramento',
     title: 'Encerramento e coffee break',
   },
@@ -224,7 +230,7 @@ export const news = [
   {
     date: 'OUT 2026',
     title: 'Definição da programação',
-    text: 'A comissão organizadora definiu a programação preliminar: apresentações de TCC, projetos de extensão, momento cultural e roda de conversa com egressos.',
+    text: 'A comissão organizadora definiu a programação: apresentações de TCC, projetos de extensão, momento cultural e roda de conversa com egressos.',
   },
   {
     date: 'NOV 2026',
