@@ -6,6 +6,7 @@ import PrivacyModal from './components/PrivacyModal.jsx';
 import ProgramAgenda from './components/ProgramAgenda.jsx';
 import RegistrationModal from './components/RegistrationModal.jsx';
 import RotatingWord from './components/RotatingWord.jsx';
+import useCleanAnchors from './hooks/useCleanAnchors.js';
 import usePageEffects from './hooks/usePageEffects.js';
 import {
   CERTIFICATE_NOTE,
@@ -34,6 +35,7 @@ function App() {
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
   usePageEffects(setActiveSection);
+  useCleanAnchors();
 
   const closeMenu = () => setMenuOpen(false);
   const closeRegistration = useCallback(() => setRegistrationOpen(false), []);

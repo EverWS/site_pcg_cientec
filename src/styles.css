@@ -2388,3 +2388,8 @@ h3 em {
     display: none;
   }
 }
+
+/* Seções recebem foco ao navegar pelos links internos; sem contorno. */
+section[tabindex='-1']:focus {
+  outline: none;
+}

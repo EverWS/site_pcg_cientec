@@ -79,10 +79,23 @@ A CSP em `public/_headers` libera `script.google.com` e
 
 ## Implantação
 
-A página é implantada no Cloudflare Pages:
+A página é publicada como Cloudflare Worker com arquivos estáticos
+(`site-pcg-cientec`), a partir da branch `main`:
 
 - Comando de build: `npm ci && npm run build`
-- Diretório de saída: `dist`
+- Diretório dos arquivos: `dist`
 - Node.js: 20.19 ou superior
 
 O arquivo `public/_headers` é copiado para `dist/` e aplicado pelo Cloudflare.
+
+## Página no WordPress da CIENTEC
+
+O endereço oficial é `https://cientec.joinville.ufsc.br/mostra-cientec/`: uma
+página do WordPress que exibe este site em um iframe de tela cheia.
+
+- `frame-ancestors`, em `public/_headers`, só permite o iframe em
+  `cientec.joinville.ufsc.br` e `cientec.paginas.ufsc.br`.
+- Os links internos não gravam `#seção` na barra de endereço.
+- Com `CANONICAL_URL` preenchido em `src/content.js`, quem abrir o endereço
+  `workers.dev` fora do iframe é redirecionado para a página oficial. Só
+  preencha depois que a página do WordPress estiver publicada e exibindo o site.
