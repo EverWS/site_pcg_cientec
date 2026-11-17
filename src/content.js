@@ -254,7 +254,8 @@ export const CONTACT_EMAIL = 'ufsc.cientec@gmail.com';
 // URL do App da Web do Google Apps Script que envia as mensagens por e-mail
 // (veja integracoes/google-apps-script/README.md). Termina em /exec.
 // Vazio = plano B: abre o aplicativo de e-mail do visitante.
-export const CONTACT_ENDPOINT = '';
+export const CONTACT_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbxgEkp1WC7FpogQXSdl0uXJvRV-kShFFK8ikWWUjFWCicjyo6Bh8eKxzPiFKSsZBEWW/exec';
 
 // Aviso de privacidade (LGPD) do formulário de contato.
 export const PRIVACY_UPDATED = '17/11/2026';
