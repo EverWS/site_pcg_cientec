@@ -2,6 +2,8 @@
   "name": "cientec-da-teoria-ao-impacto",
   "private": true,
   "version": "1.0.0",
+  "description": "Site da 1ª Mostra de Projetos Cientec UFSC Joinville",
+  "author": "Everton Wesley da Silva <everws.83@gmail.com> (https://github.com/EverWS/)",
   "type": "module",
   "engines": {
     "node": ">=20.19"
