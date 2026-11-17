@@ -42,11 +42,15 @@ src/
   App.jsx                         # Seções e interações da página
   content.js                      # Textos, datas, programação e notícias
   components/RegistrationModal.jsx # Modal de inscrição acessível
+  components/FeedbackForm.jsx     # Caixa de mensagem (envio pelo Apps Script)
+  components/PrivacyModal.jsx     # Aviso de privacidade (LGPD)
+  hooks/useDialog.js              # Foco, Esc e rolagem dos modais
   main.jsx                        # Ponto de entrada React
   styles.css                      # Identidade visual e responsividade
 public/
   _headers                        # Cabeçalhos HTTP (CSP etc.) do Cloudflare Pages
   assets/                         # Logo e favicon do CIENTEC
+integracoes/google-apps-script/   # Script que envia as mensagens por e-mail
 vite.config.js                    # Plugin React e cabeçalhos do preview
 ```
 
@@ -58,16 +62,20 @@ vite.config.js                    # Plugin React e cabeçalhos do preview
 - Programação do dia com filtros e destaque da atividade em andamento.
 - Inscrição pela plataforma da UFSC: em todas as apresentações ou em cada uma.
 - Botão "Deixar feedback" que abre o questionário no Google Forms.
-- Caixa de mensagem que abre o e-mail do visitante endereçado a
-  `ufsc.cientec@gmail.com`.
+- Caixa de mensagem (nome, e-mail e mensagem) enviada direto do site para
+  `ufsc.cientec@gmail.com`, com aviso de privacidade (LGPD).
 - Favicon e identidade visual baseados no logotipo fornecido.
 
 ## Observação
 
-O site não tem backend: a caixa de mensagem monta um link `mailto:` e o envio
-é feito pelo aplicativo de e-mail do visitante. Nenhum dado é armazenado pelo
-site. Para enviar direto do navegador, seria preciso um serviço externo (com
-política de privacidade/LGPD, validação e proteção anti-spam).
+O site não tem backend próprio. A caixa de mensagem envia os dados a um
+Google Apps Script publicado na conta `ufsc.cientec@gmail.com`, que os
+encaminha por e-mail com "Responder para" o remetente; nada é armazenado.
+Configuração em [`integracoes/google-apps-script/README.md`](integracoes/google-apps-script/README.md):
+cole a URL do script em `CONTACT_ENDPOINT` (`src/content.js`). Com a constante
+vazia, o envio cai no plano B e abre o aplicativo de e-mail do visitante.
+A CSP em `public/_headers` libera `script.google.com` e
+`script.googleusercontent.com` em `connect-src`.
 
 ## Implantação
 

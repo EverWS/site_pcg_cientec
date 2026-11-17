@@ -1,14 +1,14 @@
 import { useCallback, useState } from 'react';
 import Countdown from './components/Countdown.jsx';
+import FeedbackForm from './components/FeedbackForm.jsx';
 import ParticleField from './components/ParticleField.jsx';
+import PrivacyModal from './components/PrivacyModal.jsx';
 import ProgramAgenda from './components/ProgramAgenda.jsx';
 import RegistrationModal from './components/RegistrationModal.jsx';
 import RotatingWord from './components/RotatingWord.jsx';
 import usePageEffects from './hooks/usePageEffects.js';
 import {
   CERTIFICATE_NOTE,
-  CONTACT_EMAIL,
-  CONTACT_NOTICE,
   FEEDBACK_FORM_URL,
   EVENT_DATE,
   EVENT_DATE_LABEL,
@@ -31,43 +31,17 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
   const [registrationOpen, setRegistrationOpen] = useState(false);
-  const [feedbackSent, setFeedbackSent] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   usePageEffects(setActiveSection);
 
   const closeMenu = () => setMenuOpen(false);
   const closeRegistration = useCallback(() => setRegistrationOpen(false), []);
+  const closePrivacy = useCallback(() => setPrivacyOpen(false), []);
 
   function openRegistration() {
     setRegistrationOpen(true);
     closeMenu();
-  }
-
-  function goToFeedbackForm() {
-    setFeedbackSent(false);
-    // Aguarda o formulário ser renderizado antes de rolar e focar.
-    window.requestAnimationFrame(() => {
-      const field = document.getElementById('feedback-message');
-      field?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      field?.focus({ preventScroll: true });
-    });
-  }
-
-  // Monta um link mailto com nome e mensagem e abre o cliente de e-mail.
-  function handleFeedback(event) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get('name') || '').trim();
-    const message = String(data.get('message') || '').trim();
-    const subject = name
-      ? `Mensagem da 1ª Mostra CIENTEC - ${name}`
-      : 'Mensagem da 1ª Mostra CIENTEC';
-    const body = name ? `Nome: ${name}\n\n${message}` : message;
-    const params = new URLSearchParams({ subject, body })
-      .toString()
-      .replace(/\+/g, '%20');
-    window.location.href = `mailto:${CONTACT_EMAIL}?${params}`;
-    setFeedbackSent(true);
   }
 
   return (
@@ -391,46 +365,7 @@ function App() {
             </a>
           </div>
           <div className="feedback-form-card reveal" style={stagger(1, 120)}>
-            {feedbackSent ? (
-              <div className="success-state" role="status">
-                <span>✓</span>
-                <h3>Quase lá!</h3>
-                <p>
-                  Confira a mensagem no seu aplicativo de e-mail e clique em
-                  enviar. Se ele não abrir, escreva para{' '}
-                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
-                </p>
-                <button className="text-button" onClick={goToFeedbackForm}>
-                  Escrever outra mensagem
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleFeedback}>
-                <label htmlFor="feedback-name">
-                  Seu nome <span>opcional</span>
-                </label>
-                <input
-                  id="feedback-name"
-                  name="name"
-                  autoComplete="name"
-                  maxLength={120}
-                  placeholder="Como podemos chamar você?"
-                />
-                <label htmlFor="feedback-message">Sua mensagem</label>
-                <textarea
-                  id="feedback-message"
-                  name="message"
-                  required
-                  maxLength={2000}
-                  placeholder="O que você gostaria de encontrar na mostra?"
-                  rows="3"
-                />
-                <p className="form-notice">{CONTACT_NOTICE}</p>
-                <button className="form-submit" type="submit">
-                  Enviar mensagem <span aria-hidden="true">↗</span>
-                </button>
-              </form>
-            )}
+            <FeedbackForm onOpenPrivacy={() => setPrivacyOpen(true)} />
           </div>
         </section>
       </main>
@@ -455,13 +390,23 @@ function App() {
             Universidade Federal de Santa Catarina · Centro Tecnológico de
             Joinville
           </p>
-          <a className="footer-top" href="#inicio">
-            Voltar ao topo <span aria-hidden="true">↑</span>
-          </a>
+          <div className="footer-links">
+            <button
+              type="button"
+              className="footer-top"
+              onClick={() => setPrivacyOpen(true)}
+            >
+              Aviso de privacidade
+            </button>
+            <a className="footer-top" href="#inicio">
+              Voltar ao topo <span aria-hidden="true">↑</span>
+            </a>
+          </div>
         </div>
       </footer>
 
       {registrationOpen && <RegistrationModal onClose={closeRegistration} />}
+      {privacyOpen && <PrivacyModal onClose={closePrivacy} />}
     </div>
   );
 }

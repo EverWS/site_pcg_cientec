@@ -1305,7 +1305,7 @@ h3 em {
 }
 
 /* ---------- Modal de inscrição ---------- */
-.modal-registration {
+.modal.modal-registration {
   max-width: 580px;
 }
 .modal-step {
@@ -1767,6 +1767,65 @@ h3 em {
   color: var(--muted);
   font-size: 14.5px;
 }
+.form-submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+.form-submit:disabled:hover {
+  background: var(--ink);
+  box-shadow: none;
+  translate: none;
+}
+.form-error {
+  background: rgba(214, 64, 52, 0.08);
+  border-left: 3px solid #d64034;
+  border-radius: 8px;
+  color: #9e2a21;
+  font-size: 13.5px;
+  line-height: 1.55;
+  padding: 10px 14px;
+}
+.form-error a,
+.success-state p a {
+  color: inherit;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+}
+.inline-link {
+  color: var(--blue);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Campo-isca: fora da tela, mas presente no formulário. */
+.form-trap {
+  height: 1px;
+  left: -9999px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+.modal.modal-privacy {
+  max-width: 620px;
+}
+.privacy-list {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.privacy-list dt {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.privacy-list dd {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
 .text-button {
   color: var(--blue);
   font-size: 14px;
@@ -1860,6 +1919,11 @@ h3 em {
   border-color: var(--gold);
   border-style: solid;
   color: var(--ink);
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 /* ---------- Modal ---------- */

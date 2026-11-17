@@ -248,7 +248,39 @@ export const news = [
 // Questionário de avaliação da mostra (Google Forms, abre em nova aba).
 export const FEEDBACK_FORM_URL = 'https://forms.gle/dP8tbqLoJHJaVHGu5';
 
-// Destino das mensagens da caixa de contato. O site é estático: o envio abre
-// o aplicativo de e-mail do visitante com a mensagem já preenchida.
+// Destino das mensagens da caixa de contato.
 export const CONTACT_EMAIL = 'ufsc.cientec@gmail.com';
-export const CONTACT_NOTICE = `Ao enviar, seu aplicativo de e-mail abre com a mensagem pronta para ${CONTACT_EMAIL}.`;
+
+// URL do App da Web do Google Apps Script que envia as mensagens por e-mail
+// (veja integracoes/google-apps-script/README.md). Termina em /exec.
+// Vazio = plano B: abre o aplicativo de e-mail do visitante.
+export const CONTACT_ENDPOINT = '';
+
+// Aviso de privacidade (LGPD) do formulário de contato.
+export const PRIVACY_UPDATED = '17/11/2026';
+export const privacySections = [
+  {
+    title: 'Quem trata os dados',
+    text: `A comissão organizadora da 1ª Mostra de Projetos CIENTEC, do Curso de Bacharelado em Ciência e Tecnologia da UFSC Joinville. Contato: ${CONTACT_EMAIL}.`,
+  },
+  {
+    title: 'Quais dados coletamos',
+    text: 'Somente o que você digita no formulário de contato: nome, e-mail e mensagem. O site não usa cookies, não cria contas e não faz rastreamento.',
+  },
+  {
+    title: 'Para que usamos',
+    text: 'Para ler e responder a sua mensagem e melhorar as próximas edições da mostra. A base legal é o seu consentimento, dado ao enviar o formulário (art. 7º, I, da LGPD).',
+  },
+  {
+    title: 'Como os dados são enviados',
+    text: `A mensagem é transmitida por conexão segura a um script do Google Apps Script da conta ${CONTACT_EMAIL}, que a entrega por e-mail nessa caixa. O site não grava os dados. O Google atua como operador, conforme a política de privacidade dele.`,
+  },
+  {
+    title: 'Por quanto tempo guardamos',
+    text: 'As mensagens ficam na caixa de e-mail da organização pelo tempo necessário para responder e organizar o evento, e depois são excluídas. Não são vendidas nem compartilhadas com terceiros.',
+  },
+  {
+    title: 'Seus direitos',
+    text: `Você pode pedir acesso, correção ou exclusão dos seus dados e revogar o consentimento a qualquer momento (art. 18 da LGPD), escrevendo para ${CONTACT_EMAIL}.`,
+  },
+];

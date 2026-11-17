@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CERTIFICATE_NOTE, REGISTRATION_ALL, program } from '../content.js';
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+import useDialog from '../hooks/useDialog.js';
 
 const registrable = program.filter((item) => item.url);
 
@@ -15,39 +13,7 @@ export default function RegistrationModal({ onClose }) {
   const dialogRef = useRef(null);
   const firstRender = useRef(true);
 
-  useEffect(() => {
-    const opener = document.activeElement;
-    const dialog = dialogRef.current;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    dialog.querySelector('.choice')?.focus();
-
-    function handleKeyDown(event) {
-      if (event.key === 'Escape') {
-        onClose();
-        return;
-      }
-      if (event.key !== 'Tab') return;
-      const items = [...dialog.querySelectorAll(FOCUSABLE)];
-      if (items.length === 0) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = previousOverflow;
-      if (opener instanceof HTMLElement) opener.focus();
-    };
-  }, [onClose]);
+  useDialog(dialogRef, onClose, '.choice');
 
   // Ao trocar de etapa, leva o foco ao título e volta a rolagem ao topo.
   useEffect(() => {
