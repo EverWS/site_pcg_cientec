@@ -4,12 +4,12 @@ import App from './App.jsx';
 import { CANONICAL_URL } from './content.js';
 import './styles.css';
 
-// Aberto direto no endereço workers.dev (fora do iframe do WordPress):
-// leva o visitante ao endereço oficial em vez de mostrar o do Worker.
+// Endereço de produção do Cloudflare Pages. Quem abri-lo é levado ao domínio
+// oficial. As prévias (<id>.site-pcg-cientec.pages.dev) continuam abrindo.
+const PAGES_HOST = 'site-pcg-cientec.pages.dev';
+
 const outsideOfficialPage =
-  CANONICAL_URL &&
-  window.top === window.self &&
-  window.location.hostname.endsWith('.workers.dev');
+  CANONICAL_URL && window.location.hostname === PAGES_HOST;
 
 if (outsideOfficialPage) {
   window.location.replace(CANONICAL_URL);

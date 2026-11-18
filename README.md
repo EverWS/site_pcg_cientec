@@ -79,8 +79,8 @@ A CSP em `public/_headers` libera `script.google.com` e
 
 ## Implantação
 
-A página é publicada como Cloudflare Worker com arquivos estáticos
-(`site-pcg-cientec`), a partir da branch `main`:
+A página é publicada no Cloudflare Pages (projeto `site-pcg-cientec`), a
+partir da branch `main`:
 
 - Comando de build: `npm ci && npm run build`
 - Diretório dos arquivos: `dist`
@@ -88,14 +88,16 @@ A página é publicada como Cloudflare Worker com arquivos estáticos
 
 O arquivo `public/_headers` é copiado para `dist/` e aplicado pelo Cloudflare.
 
-## Página no WordPress da CIENTEC
+## Domínio oficial
 
-O endereço oficial é `https://cientec.joinville.ufsc.br/mostra-cientec/`: uma
-página do WordPress que exibe este site em um iframe de tela cheia.
+O endereço oficial é `https://mostra.cientec.joinville.ufsc.br/`, um CNAME no
+DNS da UFSC (SeTIC) apontando para `site-pcg-cientec.pages.dev`.
 
-- `frame-ancestors`, em `public/_headers`, só permite o iframe em
-  `cientec.joinville.ufsc.br` e `cientec.paginas.ufsc.br`.
+- Com `CANONICAL_URL` preenchido em `src/content.js`, quem abrir
+  `site-pcg-cientec.pages.dev` é redirecionado para o domínio oficial. As
+  prévias de branch (`<id>.site-pcg-cientec.pages.dev`) não são redirecionadas.
+  Só preencha depois que o domínio aparecer como "Active" no painel do Pages.
 - Os links internos não gravam `#seção` na barra de endereço.
-- Com `CANONICAL_URL` preenchido em `src/content.js`, quem abrir o endereço
-  `workers.dev` fora do iframe é redirecionado para a página oficial. Só
-  preencha depois que a página do WordPress estiver publicada e exibindo o site.
+- `frame-ancestors`, em `public/_headers`, ainda permite exibir o site num
+  iframe do WordPress da CIENTEC (`cientec.joinville.ufsc.br` e
+  `cientec.paginas.ufsc.br`).

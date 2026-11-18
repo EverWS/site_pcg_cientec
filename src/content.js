@@ -9,9 +9,9 @@ export const EVENT_DAY = '2026-12-03';
 export const EVENT_DATE_LABEL = '03 dez. 2026';
 export const EVENT_PLACE = 'UFSC Joinville';
 
-// Endereço oficial da página (dentro do WordPress da CIENTEC). Quando
-// preenchido, quem abrir o endereço workers.dev fora do iframe é levado para
-// cá. Deixe vazio até a página do WordPress estar publicada.
+// Endereço oficial da página (domínio próprio no Cloudflare Pages). Quando
+// preenchido, quem abrir site-pcg-cientec.pages.dev é levado para cá. Deixe
+// vazio até o domínio aparecer como "Active" no painel do Pages.
 export const CANONICAL_URL = '';
 
 export const navItems = [
